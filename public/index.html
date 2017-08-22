@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>tbdtheintro</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="libraries/webmidi.min.js" type="text/javascript"></script>
+    <script src="libraries/p5.js" type="text/javascript"></script>
+    <script src="/socket.io/socket.io.js"></script>
+      <!-- <script src="libraries/p5.dom.js" type="text/javascript"></script>
+    <script src="libraries/p5.sound.js" type="text/javascript"></script> -->
+    <link href='style.css' rel='stylesheet' type='text/css'>
+    <script src="sketch.js" type="text/javascript"></script>
+  </head>
+  <body>
+  
+
+  
+  <div class="help">
+  
+  <button class="switch">Not seeing MIDI outputs? Click for help</button>
+  <div id="dropdown" class="hidewindow">
+    <p><b>Thanks for coming to visit the TBD Sequencer!</b></p>
+    <p>Are ya not seeing any MIDI outputs?</p>
+    <p>If you're on a Mac computer you'll have to open up your MIDI studio!</p>
+    <p>You'll start by clicking on the magnifying glass on the upper left corner of your screen. Search for and select "Audio MIDI Setup".</p>
+    <p>Once you've made it there, make sure you're looking at the MIDI studio. If you're not, my dear friend, click on Window and show MIDI studio. If you're some kind of hot shot, you can also hit 'command+2'.</p>
+    <p>Ok, you should see several MIDI devices in the MIDI studio. Double click on the one that says IAC Driver.</p>
+    <p>You should see the IAC Driver Properties window pop up! Wow! You can add ports by clicking the plus sign in the lower left quadrant of the window. We here at TBD Enterprises think it'd be best if you added a minimum of threee ports. Name them if you want. That's the fun part.</p>
+    <p>Thanks for visiting the site and <b>have a good night, okay?</b></p>
+    <p><b>--TBD Staff</b></p>
+    <p>Shoot... If you have a Windows computer we don't really know what to do for you. If you figure it out, make your own website! Just kidding! Shoot us an email. tbd@haveagoodnightokay.com</p>
+  </div>
+  </div>
+
+  
+
+  
+  <div class="container">
+  <h1 class="title">tbd sequencer</h1>
+     <div class="tempo">Set tempo here!
+       <input type="number" id="bpm" min="60" max="300"  value="120"/>
+     
+<!--       <select class = scale>
+          <option>Pick your scale!</option>
+        <option>Major pentatonic</option>
+        <option>Minor pentatonic</option>
+      </select> -->
+      <select class = key>
+          <option>Pick your key!</option>
+          <option>C</option>
+          <option>C#</option>
+          <option>D</option>
+          <option>D#</option>
+          <option>E</option>
+          <option>F</option>
+          <option>F#</option>
+          <option>G</option>
+          <option>G#</option>
+          <option>A</option>
+          <option>A#</option>
+          <option>B</option>
+      </select>
+  </div>
+
+    <div class="ticker"></div>
+    <div class="steps">
+      <div class="grid tweet">
+      <h1 class="label">tweet</h1>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+           </div>
+        <div class="row">
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+        </div>
+      <select class = highoutput>
+        <option>Pick your outty!</option>
+      </select>
+      </div>
+      <div class="grid bump">
+      <h1 class="label">bump</h1>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+        </div>
+        <div class="row">
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+        </div>
+      <select class = bassoutput>
+        <option>Pick your outty!</option>
+      </select>
+      </div>
+      <div class="grid drums">
+      <h1 class="label">drums</h1>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div> mystery slam
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div> open hat
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div> closed hat
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div> snare
+        </div>
+        <div class="row">
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div>
+          <div class="step"></div> kick
+        </div>
+        <div class="row">
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+          <div class="beatbar"></div>
+        </div>
+      <select class = drumoutput>
+        <option>Pick your outty!</option>
+      </select>
+      </div>
+      </div>
+  </div>
+  </body>
+</html>
