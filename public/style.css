@@ -253,7 +253,7 @@ canvas {
 
 .sub-menu {display: none;}
 
-.highoutput{
+.output{
  	position: absolute;
     right: 150px;
    	font-family: "Helvetica";
@@ -264,27 +264,6 @@ canvas {
     user-select: none;          /* Likely future */  
 }
 
-.bassoutput{
- 	position: absolute;
-    right: 150px;
-   	font-family: "Helvetica";
-	font-style: italic;
-	-webkit-user-select: none;  /* Chrome all / Safari all */
-    -moz-user-select: none;     /* Firefox all */
-    -ms-user-select: none;      /* IE 10+ */
-    user-select: none;          /* Likely future */  
-}
-
-.drumoutput{
- 	position: absolute;
-    right: 150px;
-   	font-family: "Helvetica";
-	font-style: italic;
-	-webkit-user-select: none;  /* Chrome all / Safari all */
-    -moz-user-select: none;     /* Firefox all */
-    -ms-user-select: none;      /* IE 10+ */
-    user-select: none;          /* Likely future */  
-}
 
 .scale{
  	position: absolute;

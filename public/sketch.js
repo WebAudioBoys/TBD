@@ -1,49 +1,12 @@
 var socket = io();
 var bpmChanged = false;
 var tempo = 120;
-var drums,drumIndex;
-var bass,bassIndex;
-var high, highIndex;  
+var drums, drumIndex;
+var bass, bassIndex;
+var high, highIndex; 
+var midiOut =  [0,0,0];
 
 var noteArray;
-majorArray = [
-  [-61, -61, -61, -61, -61, -61, -61, -61, -61, -61, -61, -61, -61, -61, -61, -61],
-  [-59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59],
-  [-56, -56, -56, -56, -56, -56, -56, -56, -56, -56, -56, -56, -56, -56, -56, -56],
-  [-54, -54, -54, -54, -54, -54, -54, -54, -54, -54, -54, -54, -54, -54, -54, -54],
-  [-52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52],
-
-  [-49, -49, -49, -49, -49, -49, -49, -49, -49, -49, -49, -49, -49, -49, -49, -49],
-  [-47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47],
-  [-44, -44, -44, -44, -44, -44, -44, -44, -44, -44, -44, -44, -44, -44, -44, -44],
-  [-42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42],
-  [-40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40],
-    
-  [-40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40],
-  [-46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46],
-  [-42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42],
-  [-38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38],
-  [-36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36],]
-
-  /*minorArray = [
-  [-62, -62, -62, -62, -62, -62, -62, -62, -62, -62, -62, -62, -62, -62, -62, -62],
-  [-59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59, -59],
-  [-57, -57, -57, -57, -57, -57, -57, -57, -57, -57, -57, -57, -57, -57, -57, -57],
-  [-55, -55, -55, -55, -55, -55, -55, -55, -55, -55, -55, -55, -55, -55, -55, -55],
-  [-52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52, -52],
-
-  [-50, -50, -50, -50, -50, -50, -50, -50, -50, -50, -50, -50, -50, -50, -50, -50],
-  [-47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47, -47],
-  [-45, -45, -45, -45, -45, -45, -45, -45, -45, -45, -45, -45, -45, -45, -45, -45],
-  [-43, -43, -43, -43, -43, -43, -43, -43, -43, -43, -43, -43, -43, -43, -43, -43],
-  [-40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40],
-    
-  [-40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40, -40],
-  [-46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46, -46],
-  [-42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42, -42],
-  [-38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38, -38],
-  [-36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36, -36],]
-*/
 
 noteArray = majorArray;
 
@@ -58,58 +21,20 @@ WebMidi.enable(function (err) {
   if(err){
     console.log("WebMidi is fucked, Dave", err);
   }
-////////////////////////////////////////////////////////////////////////////////
-//Drum//////Dropdown///////////////////////////////////////////////////////////
 
-for(var i = 0; i < WebMidi.outputs.length; i++){
-$('.drumoutput').append("<option>"+ WebMidi.outputs[i].name +"</option>");
-}
-
-$( '.drumoutput' ).change(function() {
-  drumIndex = $(".drumoutput option:selected").index();
-  drumIndex = drumIndex-1;
-  drums = WebMidi.outputs[drumIndex];
-  console.log(drums);
-});
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-//Bass////////Output////////////////////////////////////////////////////////////
-for(i = 0; i < WebMidi.outputs.length; i++){
-$('.bassoutput').append("<option>"+ WebMidi.outputs[i].name +"</option>");
-}
-
-$( '.bassoutput' ).change(function() {
-  bassIndex = $(".bassoutput option:selected").index();
-  bassIndex = bassIndex-1;
-  bass = WebMidi.outputs[bassIndex];
-  console.log(bass);
-});
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-//High////////Output////////////////////////////////////////////////////////////
-for(var i = 0; i < WebMidi.outputs.length; i++){
-$('.highoutput').append("<option>"+ WebMidi.outputs[i].name +"</option>");
-}
-
-$( '.highoutput' ).change(function() {
-  highIndex = $(".highoutput option:selected").index();
-  highIndex = highIndex-1;
-  high = WebMidi.outputs[highIndex];
-});
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////  
-  //Print outputs to the console
-
-  // for(var i = 0; i < WebMidi.outputs.length; i++){
+  for(var i = 0; i < WebMidi.outputs.length; i++){
+    $('.output').append("<option>"+ WebMidi.outputs[i].name +"</option>");
+    }
+    
+  $( '.output' ).change(function() {
+    console.log("nutty");
+    index = $("option:selected", this).index()-1;
+    console.log("index: " + index);
+    module = $(this).parent().index();
+    console.log("module: " + module);
+    midiOut[module] = WebMidi.outputs[index];
+  });
   
-  //   console.log(WebMidi.outputs[i].name);
-  // }
-
 
 });
 
@@ -292,22 +217,7 @@ function draw(){
   ///////////////////////////////////////////////////////
   //Code For Iterating the Counter///////////////////////
     // shade cells at pace of counter
-   var beat = ['.beatbar:nth-child(1)',
-                '.beatbar:nth-child(2)',
-                '.beatbar:nth-child(3)',
-                '.beatbar:nth-child(4)',
-                '.beatbar:nth-child(5)',
-                '.beatbar:nth-child(6)',
-                '.beatbar:nth-child(7)',
-                '.beatbar:nth-child(8)',
-                '.beatbar:nth-child(9)',
-                '.beatbar:nth-child(10)',
-                '.beatbar:nth-child(11)',
-                '.beatbar:nth-child(12)',
-                '.beatbar:nth-child(13)',
-                '.beatbar:nth-child(14)',
-                '.beatbar:nth-child(15)',
-                '.beatbar:nth-child(16)',];
+
     if (counter != 0) {
       $(beat[counter-1]).css("background", "black");
       $(beat[counter]).css("background", "red");
@@ -316,34 +226,36 @@ function draw(){
       $(beat[counter]).css("background", "red");
     }
 
-    //////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////
+
     var tempArray = [[],[],[]];
     for(j = 0; j < 3; j++){
       for(i = 0; i < 5;i++){
-      if(noteArray[i+ (j*5)][counter] > 0){
-        tempArray[j].push(noteArray[i+ (j*5)][counter]);
-      }  
+        if(noteArray[i+ (j*5)][counter] > 0){
+          tempArray[j].push(noteArray[i+ (j*5)][counter]);
+        }  
+      }
     }
-    }
+
     //console.log(tempArray);
-     if(high){
-      high.playNote(tempArray[0], 1);
-      high.stopNote(tempArray[0], 1, {time: "+500"});
+     if(midiOut[0]){
+      midiOut[0].playNote(tempArray[0], 1);
+      midiOut[0].stopNote(tempArray[0], 1, {time: "+500"});
+      
     }
 
-    if(bass){
-      bass.playNote(tempArray[1], 1);
-      bass.stopNote(tempArray[1], 1, {time: "+500"});
+    if(midiOut[1]){
+      midiOut[1].playNote(tempArray[1], 1);
+      midiOut[1].stopNote(tempArray[1], 1, {time: "+500"});
+     
     }
 
-    if(drums){
-      drums.playNote(tempArray[2], 1);
-      drums.stopNote(tempArray[2], 1, {time: "+500"});
+    if(midiOut[2]){
+      midiOut[2].playNote(tempArray[2], 1);
+      midiOut[2].stopNote(tempArray[2], 1, {time: "+500"});
+      
     }
 
-
+   
   } 
 
 
