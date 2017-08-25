@@ -129,6 +129,19 @@ canvas {
     -ms-user-select: none;      /* IE 10+ */
     user-select: none;          /* Likely future */  
 }
+#play{
+	text-align: center;
+}
+
+#playbutton{
+	height: 50px;
+	width: 150px;
+	background-color: purple;
+	color: white;
+	padding: 16px;
+	font-size:20px;
+	text-align: center;
+}
 
 .grid.tweet{
 	background: green;

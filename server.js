@@ -51,9 +51,9 @@ io.on('connection', function(socket){
   });
   
   socket.on('step', function(data){
-  //console.log(data);
+  console.log(data);
   noteUpdate[data.row][data.beat] = noteUpdate[data.row][data.beat] * -1; 
-  io.emit('step', data);
+  io.emit('stepreturn', data);
   });
 
   socket.on('tempo', function(data){

@@ -5,10 +5,10 @@
     <title>tbdtheintro</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="libraries/webmidi.min.js" type="text/javascript"></script>
+    <script src="libraries/Tone.min.js" type="text/javascript"></script>
     <script src="libraries/p5.js" type="text/javascript"></script>
     <script src="/socket.io/socket.io.js"></script>
-      <!-- <script src="libraries/p5.dom.js" type="text/javascript"></script>
-    <script src="libraries/p5.sound.js" type="text/javascript"></script> -->
+    <script src="synths.js" type="text/javascript"></script>
     <link href='style.css' rel='stylesheet' type='text/css'>
     <script src="globals.js" type="text/javascript"></script>
       <script src="sketch.js" type="text/javascript"></script>
@@ -39,6 +39,8 @@
   
   <div class="container">
   <h1 class="title">tbd sequencer</h1>
+     <div id="play">
+     <button id="playbutton">Play/Pause</button></div>
      <div class="tempo">Set tempo here!
        <input type="number" id="bpm" min="60" max="300"  value="120"/>
      
